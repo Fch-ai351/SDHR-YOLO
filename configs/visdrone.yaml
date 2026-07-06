@@ -1,0 +1,19 @@
+# data/visdrone.yaml
+path: /home/yons/fch/datasets/VisDrone2019-DET-YOLO  # 这里填你刚才那个根目录
+
+train: images/train
+val: images/val
+
+# 保留 VisDrone 中常用的 10 个有效类别（去掉 ignored regions / others）
+nc: 10
+names:
+  - pedestrian
+  - people
+  - bicycle
+  - car
+  - van
+  - truck
+  - tricycle
+  - awning-tricycle
+  - bus
+  - motor

@@ -1,0 +1,12 @@
+python>=3.10
+torch>=2.7.0
+torchvision
+ultralytics==8.0.137
+opencv-python
+numpy
+matplotlib
+pandas
+pyyaml
+tqdm
+pillow
+scipy

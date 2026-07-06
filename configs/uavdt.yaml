@@ -1,0 +1,7 @@
+path: /home/yons/fch/datasets/UAVDT-YOLO
+train: images/train
+val: images/val
+
+nc: 1
+names:
+  - vehicle
