@@ -1,4 +1,7 @@
-path: /home/yons/fch/datasets/UAVDT-YOLO
+# UAVDT-YOLO
+# Replace path with the local dataset root.
+
+path: /path/to/UAVDT-YOLO
 train: images/train
 val: images/val
 

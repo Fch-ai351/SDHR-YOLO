@@ -1,5 +1,5 @@
 # Ultralytics YOLO 🚀, AGPL-3.0 license
-# SDHR-YOLO three-head model with P2/P3/P4 outputs.
+# SDPM ablation model with P2/P3/P4 outputs.
 
 # Parameters
 nc: 10 # number of classes
@@ -19,8 +19,8 @@ backbone:
   - [-1, 1, Conv, [64, 3, 2]]
   - [-1, 1, Conv, [128, 3, 2]]
 
-  # SDPM + Haar-Frequency Residual Module (HFRM)
-  - [-1, 1, FCM_3_SD_HF, [128]]
+  # Shallow Detail Perception Module (SDPM)
+  - [-1, 1, FCM_3_SD, [128]]
   - [ -1, 1, Down, [ 256 ] ]
   - [-1, 1, FCM_2, [256]]
   - [ -1, 1, Down, [ 512 ] ]

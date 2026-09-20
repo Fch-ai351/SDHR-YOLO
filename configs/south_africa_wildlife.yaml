@@ -1,0 +1,12 @@
+# South African savanna wildlife UAV subset
+# Wet-season Leopard Rock subset used in the paper.
+# Replace path with the local dataset root.
+
+path: /path/to/wet_leopard_allreps_yolo
+train: images/train
+val: images/val
+test: images/test
+
+nc: 1
+names:
+  - wildlife
