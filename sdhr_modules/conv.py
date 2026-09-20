@@ -2194,11 +2194,11 @@ class FCM_SD(nn.Module):
 
 class FCM_3_SD_HF(nn.Module):
     """
-    Shallow Detail-enhanced FCM with High-Frequency Residual Enhancement.
+    Shallow Detail-enhanced FCM with Haar-Frequency Residual Enhancement.
 
     This module preserves the original FCM_3 mapping path, adds a lightweight
-    spatial detail branch, and further injects DWT-based high-frequency residual
-    features. The frequency branch is used as a residual enhancement rather than
+    spatial detail branch, and further injects DWT-based Haar-frequency residual
+    features. The Haar-frequency branch is used as a residual enhancement rather than
     a multiplicative gate, avoiding suppression of the original features.
 
     Input:  (B, C, H, W)
@@ -2233,7 +2233,7 @@ class FCM_3_SD_HF(nn.Module):
         # Learnable spatial detail scale
         self.beta = nn.Parameter(torch.tensor(0.1))
 
-        # Haar high-frequency residual branch
+        # Haar-frequency residual branch using partial-channel transformed responses
         # DWT_Haar_HF outputs 3 * self.one channels with H/2, W/2
         self.hf_dwt = DWT_Haar_HF()
         self.hf_reduce = nn.Sequential(
@@ -2243,7 +2243,7 @@ class FCM_3_SD_HF(nn.Module):
         )
         self.hf_pw = Conv(self.one, dim, 1, 1)
 
-        # Learnable high-frequency residual scale
+        # Learnable Haar-frequency residual scale
         self.alpha = nn.Parameter(torch.tensor(0.05))
 
         # Original FCM gates
@@ -2264,7 +2264,7 @@ class FCM_3_SD_HF(nn.Module):
         detail = self.detail_act(detail)
         detail = self.detail_pw(detail)
 
-        # Frequency high-frequency residual branch
+        # Haar-frequency residual branch
         hf = self.hf_dwt(x1)                         # (B, 3*self.one, H/2, W/2)
         hf = self.hf_reduce(hf)                      # (B, self.one, H/2, W/2)
         hf = F.interpolate(hf, size=x1.shape[-2:], mode="nearest")
@@ -2286,10 +2286,10 @@ class FCM_3_SD_HF(nn.Module):
 
 class FCM_3_HF(nn.Module):
     """
-    FCM_3 with High-Frequency Residual Enhancement only.
+    FCM_3 with Haar-Frequency Residual Enhancement only.
 
     This module preserves the original FCM_3 mapping path and injects
-    DWT-based high-frequency residual features into the main branch.
+    DWT-based Haar-frequency residual features into the main branch.
     It does not use the SD-P3 spatial detail branch.
     """
     def __init__(self, dim, dim_out, wg_mode="base", wg_band="hf"):
@@ -2305,7 +2305,7 @@ class FCM_3_HF(nn.Module):
         # Original FCM complementary branch
         self.conv2 = Conv(self.two, dim, 1, 1)
 
-        # Haar high-frequency residual branch
+        # Haar-frequency residual branch using partial-channel transformed responses
         # DWT_Haar_HF outputs 3 * self.one channels with H/2, W/2
         self.hf_dwt = DWT_Haar_HF()
         self.hf_reduce = nn.Sequential(
@@ -2315,7 +2315,7 @@ class FCM_3_HF(nn.Module):
         )
         self.hf_pw = Conv(self.one, dim, 1, 1)
 
-        # Learnable high-frequency residual scale
+        # Learnable Haar-frequency residual scale
         self.alpha = nn.Parameter(torch.tensor(0.05))
 
         # Original FCM gates
@@ -2330,7 +2330,7 @@ class FCM_3_HF(nn.Module):
         x3 = self.conv12(x3)
         x3_main = self.conv123(x3)
 
-        # High-frequency residual branch
+        # Haar-frequency residual branch
         hf = self.hf_dwt(x1)                         # (B, 3*self.one, H/2, W/2)
         hf = self.hf_reduce(hf)                      # (B, self.one, H/2, W/2)
         hf = F.interpolate(hf, size=x1.shape[-2:], mode="nearest")
