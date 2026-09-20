@@ -1,9 +1,17 @@
-#!/bin/bash
-# Example validation command
+#!/usr/bin/env bash
+set -euo pipefail
 
-PYTHONPATH=/path/to/FCM-main yolo detect val \
-  model=/path/to/weights/hongwai_best.pt \
-  data=/path/to/SDHR-YOLO/configs/visdrone.yaml \
-  imgsz=640 \
-  batch=16 \
-  workers=1
+if [ "$#" -lt 1 ]; then
+  echo "Usage: bash scripts/val.sh WEIGHTS [DATA_YAML]"
+  echo "Example:"
+  echo "  bash scripts/val.sh runs/visdrone/sdhr_yolo_s_e150_seed0/weights/best.pt configs/visdrone.yaml"
+  exit 1
+fi
+
+WEIGHTS="$1"
+DATA="${2:-configs/visdrone.yaml}"
+
+yolo detect val \
+  model="$WEIGHTS" \
+  data="$DATA" \
+  imgsz=640

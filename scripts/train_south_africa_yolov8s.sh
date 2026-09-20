@@ -3,9 +3,9 @@ set -euo pipefail
 
 yolo detect train \
   model=configs/yolov8s_baseline.yaml \
-  data=configs/uavdt.yaml \
-  epochs=200 \
-  batch=12 \
+  data=configs/south_africa_wildlife.yaml \
+  epochs=100 \
+  batch=16 \
   imgsz=640 \
   optimizer=auto \
   seed=0 \
@@ -13,5 +13,5 @@ yolo detect train \
   close_mosaic=10 \
   fliplr=0.5 \
   amp=True \
-  project=runs/uavdt \
-  name=yolov8s_e200_seed0
+  project=runs/south_africa \
+  name=yolov8s_e100_seed0

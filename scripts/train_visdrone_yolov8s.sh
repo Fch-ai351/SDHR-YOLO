@@ -1,15 +1,17 @@
-#!/bin/bash
-# Train YOLOv8-S baseline on VisDrone2019-DET
+#!/usr/bin/env bash
+set -euo pipefail
 
-PYTHONPATH=/path/to/FCM-main yolo detect train \
-  model=/path/to/SDHR-YOLO/configs/yolov8s_baseline.yaml \
-  data=/path/to/SDHR-YOLO/configs/visdrone.yaml \
-  imgsz=640 \
+yolo detect train \
+  model=configs/yolov8s_baseline.yaml \
+  data=configs/visdrone.yaml \
   epochs=150 \
-  batch=16 \
-  workers=1 \
-  close_mosaic=10 \
+  batch=8 \
+  imgsz=640 \
+  optimizer=auto \
   seed=0 \
   deterministic=True \
+  close_mosaic=10 \
+  fliplr=0.5 \
+  amp=True \
   project=runs/visdrone \
-  name=yolov8s_e150
+  name=yolov8s_e150_seed0

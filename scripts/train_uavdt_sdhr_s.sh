@@ -1,16 +1,17 @@
-#!/bin/bash
-# Train SDHR-YOLO-S on UAVDT-YOLO external validation dataset
+#!/usr/bin/env bash
+set -euo pipefail
 
-PYTHONPATH=/path/to/FCM-main yolo detect train \
-  model=/path/to/SDHR-YOLO/configs/yolov8s_sdhr.yaml \
-  data=/path/to/SDHR-YOLO/configs/uavdt.yaml \
-  imgsz=640 \
+yolo detect train \
+  model=configs/yolov8s_sdhr_3head.yaml \
+  data=configs/uavdt.yaml \
   epochs=200 \
-  batch=16 \
-  workers=1 \
-  close_mosaic=10 \
+  batch=12 \
+  imgsz=640 \
+  optimizer=auto \
   seed=0 \
   deterministic=True \
-  patience=0 \
+  close_mosaic=10 \
+  fliplr=0.5 \
+  amp=True \
   project=runs/uavdt \
-  name=sdhr_yolov8s_uavdt_e200_noearlystop
+  name=sdhr_yolo_s_e200_seed0
